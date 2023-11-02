@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+</head>
+<body>
+    <div class="column">
+        <div class="statblock idea">
+            <textarea class="ideas" id="ideas" placeholder="write your ideas here..."></textarea>
+        </div>
+        <div class="statblock commithold">
+            <span class="commitdate" id="commitdate"></span>
+            <span class="committime" id="committime"></span>
+            <span class="message" id="message"></span>
+        </div>
+        <div class="statblock issuehold">
+            <span class="issue" id="issue"></span>
+        </div>
+        <div class="newshold statblock" id="newshold">
+            <div class="news" id="news"></div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="reddithold statblock" id="reddithold">
+        </div>
+        <div class="trendingreposhold statblock" id="repohold">
+
+        </div>
+    </div>
+    <div class="column">
+        <script>
+            (function(d, s, id) {
+                if (d.getElementById(id)) {
+                    if (window.__TOMORROW__) {
+                        window.__TOMORROW__.renderWidget();
+                    }
+                    return;
+                }
+                const fjs = d.getElementsByTagName(s)[0];
+                const js = d.createElement(s);
+                js.id = id;
+                js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+    
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'tomorrow-sdk');
+            </script>
+    
+    <script>
+        (function(d, s, id) {
+            if (d.getElementById(id)) {
+                if (window.__TOMORROW__) {
+                    window.__TOMORROW__.renderWidget();
+                }
+                return;
+            }
+            const fjs = d.getElementsByTagName(s)[0];
+            const js = d.createElement(s);
+            js.id = id;
+            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'tomorrow-sdk');
+        </script>
+
+        <div class="tomorrow"
+           data-location-id="048721"
+           data-language="EN"
+           data-unit-system="METRIC"
+           data-skin="dark"
+           data-widget-type="summary"
+           style="padding-bottom:22px;position:relative;"
+        >
+          <a
+            href="https://www.tomorrow.io/weather-api/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+          >
+            <img
+              alt="Powered by the Tomorrow.io Weather API"
+              src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
+              width="250"
+              height="18"
+            />
+          </a>
+        </div>
+        <div class="datehold statblock">
+            <div class="date" id="date"></div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="codehold statblock">
+            <input type="text" class="title" id="title" placeholder="Title">
+            <textarea class="code" id="code" placeholder="write your code here..."></textarea>
+            <button class="save" id="save" onclick="Save();">+</button>
+        </div>
+        <div class="snippethold" id="snippethold"></div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
