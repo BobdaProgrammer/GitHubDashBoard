@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      API_KEY: ${{ secrets.newsAPIkey }}  # Set the environment variable from the secret
+      API_KEY: ${{ secrets.NEWSAPIKEY }}  # Set the environment variable from the secret
 
     steps:
       - name: Checkout repository
