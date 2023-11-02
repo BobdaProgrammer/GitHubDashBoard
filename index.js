@@ -194,7 +194,7 @@ async function getLatestIssue() {
 
 
     $(document).ready(function () {
-      var apiKey = "";
+      var apiKey = process.env.API_KEY;
       var apiUrl =
         `https://newsapi.org/v2/everything?q=programming&q=code&sortBy=popularity&apiKey=` + apiKey;
 
