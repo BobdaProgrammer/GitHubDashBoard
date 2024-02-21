@@ -3,7 +3,7 @@ let user = localStorage.getItem("user")
 const urlParams = new URLSearchParams(window.location.search)
 
 function addUser() {
-      const clientId = "139eb2ebea29ce71494d";
+      const clientId = "4532557c356a9027707c";
       const redirectUri = "githubdashboard.softwarespot.top";
       const scope = "user"; // Specify the scopes you need
 
