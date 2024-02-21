@@ -1,64 +1,46 @@
 let latestRepo = "";
+let user = localStorage.getItem("user")
+const urlParams = new URLSearchParams(window.location.search)
 
-let snippets = JSON.parse(localStorage.getItem("snippets"))||[]
+function addUser() {
+      const clientId = "139eb2ebea29ce71494d";
+      const redirectUri = "githubdashboard.softwarespot.top";
+      const scope = "user"; // Specify the scopes you need
 
-function deserializeArray(str) {
-  if (!str) return [];
-  return JSON.parse(str);
+      const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+      window.location.href = authUrl;
+      document.querySelector(".tile").style.display = "none";
 }
-
-function Save() {
-  snippets.push([document.getElementById("title").value,document.getElementById("code").value]);
-  localStorage.setItem("snippets", JSON.stringify(snippets));
-  putSnippets();
-}
-
-function Copy(num) {
-  navigator.clipboard.writeText(snippets[num][1])
-}
-
-function takeOff (num){
-  snippets.splice(num,1);
-  localStorage.setItem("snippets", JSON.stringify(snippets));
-  putSnippets();
-}
-
-function putSnippets() {
-  document.getElementById("snippethold").innerHTML = "";
-    for (let z = 0; z < snippets.length; z++) {
-      let snippet = document.createElement("div");
-      snippet.classList.add("snippet");
-      snippet.classList.add("statblock");
-      snippet.innerHTML = `
-    <span class="snippetTitle">${snippets[z][0]}</span>
-    <button class="copy snipBut" id="copy" onclick="Copy(${z})"><img src="copy.png"></button>
-    <button class="delete snipBut" id="delete" onclick="takeOff(${z})"><img src="delete.png"></button>
-    `;
-      document.getElementById("snippethold").appendChild(snippet);
+    function handleCallback() {
+      accessToken = urlParams.get("code");
+      let username;
+        fetch("https://api.github.com/user", {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Extract the username from the response data
+            username = data.login; // 'login' is the key for the username in the GitHub API response
+          })
+          .catch((error) => {
+            console.error("Error fetching user info:", error);
+          });
+      localStorage.setItem("user", username)
+      user = username
     }
-}
 
+    // Check if the URL contains an access token after redirection
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  console.log(snippets)
-
-  putSnippets();
-  // Create a Date object for the current date
-  const currentDate = new Date();
-
-  // Get day, month, and year components
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
-  const year = currentDate.getFullYear();
-
-  // Format the date components as "dd-mm-yyyy"
-  const formattedDate = `${day.toString().padStart(2, "0")}/${month
-    .toString()
-    .padStart(2, "0")}/${year}`;
-
-  console.log(formattedDate);
-
-  document.getElementById("date").textContent = formattedDate;
+      if (urlParams.get("code") != null) {
+        handleCallback();
+      }
+  if (user == null) {
+    document.querySelector(".username").style.display = "block"
+    document.querySelector(".tile").style.display = "block";
+  }
   fetch("https://api.github.com/repositories?since=20232910")
     .then((response) => response.json())
     .then((data) => {
@@ -108,7 +90,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
     });
 
-  fetch("https://api.github.com/users/BobdaProgrammer/events")
+  fetch(`https://api.github.com/users/${user}/events`)
     .then((response) => response.json())
     .then((data) => {
       // Filter the events to get only the PushEvents
@@ -168,6 +150,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
     textarea.selectionEnd = selectionStart + 2;
   }
 });
+
+function fetchlanguage(link) {
+  return fetch(link, {
+    headers: {
+      Authorization: `bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          `Network response was not ok, status: ${response.status}`
+        );
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      for (let key in data) {
+        languages[key]
+          ? (languages[key] += data[key])
+          : (languages[key] = data[key]);
+      }
+    })
+    .catch((error) => {
+      console.log("Fetch error: ", error);
+    });
+}
+
 
 async function getLatestIssue() {
   try {
