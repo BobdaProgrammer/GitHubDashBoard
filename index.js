@@ -9,7 +9,8 @@ function addUser() {
 
       const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
       window.location.href = authUrl;
-      document.querySelector(".tile").style.display = "none";
+  document.querySelector(".tile").style.display = "none";
+  document.querySelector(".username").style.display = "none";
 }
     function handleCallback() {
       accessToken = urlParams.get("code");
